@@ -5,6 +5,9 @@ const getTickets = async () => {
     const res = await fetch("http://localhost:3000/api/Tickets", {
       cache: "no-store",
     });
+    if (!res.ok) {
+      throw new Error("Failed to fetch topics");
+    }
     return res.json();
   } catch (error) {
     console.error("Failed to get tickets", error);
@@ -12,10 +15,15 @@ const getTickets = async () => {
 };
 
 const Dashboard = async () => {
-  const { tickets } = await getTickets();
-
+  const data = await getTickets();
+  if (data?.tickets.length === 0) {
+    return (
+      <p className="text-5xl flex justify-center text-red-600">No Tickets</p>
+    );
+  }
+  const tickets = data.tickets;
   const uniqueCategories = [
-    ...new Set(tickets.map(({ category }) => category)),
+    ...new Set(tickets?.map(({ category }) => category)),
   ];
 
   return (
