@@ -1,37 +1,35 @@
 "use client";
-import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
 
-const SnackBar = ({ message }) => {
-  var snackBar = document.getElementById("snackbar");
-  //   setTimeout(() => {
-  //     snackBar.style.display = "none";
-  //   }, 4000);
+const SnackBar = ({ message, flag }) => {
+  const [active, setActive] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setActive(false);
+    }, 4000);
+  }, []);
   const closeSnackbar = () => {
-    snackBar.style.display = "none";
+    setActive(false);
   };
 
   return (
     <div
       id="snackbar"
-      class="bg-green-600 text-white p-4 rounded-md fixed bottom-4 left-4 flex justify-between items-center"
-      style={{ display: "block" }}
+      className={`${
+        flag ? "bg-green-600 " : "bg-red-400 "
+      } text-white p-4 rounded-md fixed bottom-4 left-4 flex justify-between items-center ${
+        active ? "block" : "hidden"
+      }`}
     >
       Ticket {message} Successfully
-      <button class="text-white" onClick={closeSnackbar}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          class="w-4 h-4"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
+      <button className="text-white" onClick={closeSnackbar}>
+        <FontAwesomeIcon
+          icon={faX}
+          className="text-white hover:cursor-pointer hover:text-red-200"
+          onClick={closeSnackbar}
+        />
       </button>
     </div>
   );

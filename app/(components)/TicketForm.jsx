@@ -185,7 +185,9 @@ const TicketForm = ({ ticket }) => {
           />
         </form>
       </div>
-      {snackbarAdded && <SnackBar message={EditMode ? "Updated" : "Created"} />}
+      {snackbarAdded && (
+        <SnackBar message={EditMode ? "Updated" : "Created"} flag={true} />
+      )}
     </>
   );
 };

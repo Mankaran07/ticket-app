@@ -5,12 +5,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import SnackBar from "./SnackBar";
+import { useSession } from "next-auth/react";
 
 const DeleteBlock = ({ id }) => {
   const router = useRouter();
+  const { data: session } = useSession();
+
   const [snackbarAdded, setSnackbarAdded] = useState(false);
   const deleteTicket = async () => {
-    const res = await fetch(`http://localhost:3000/api/Tickets/${id}`, {
+    if (!session) {
+      router.refresh();
+      router.push("/api/auth/signin");
+      router.refresh();
+      return;
+    }
+    const res = await fetch(`/api/Tickets/${id}`, {
       method: "DELETE",
     });
     if (res.ok) router.refresh();
@@ -23,7 +32,7 @@ const DeleteBlock = ({ id }) => {
         className="text-red-400 hover:cursor-pointer hover:text-red-200"
         onClick={deleteTicket}
       />
-      {snackbarAdded && <SnackBar message={"Deleted"} />}
+      {snackbarAdded && <SnackBar message={"Deleted"} flag={true} />}
     </div>
   );
 };

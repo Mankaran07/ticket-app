@@ -4,8 +4,11 @@ import PriorityDisplay from "./PriorityDisplay";
 import ProgressDisplay from "./ProgressDisplay";
 import StatusDisplay from "./StatusDisplay";
 import Link from "next/link";
+import { getServerSession } from "next-auth";
+import { options } from "../api/auth/[...nextauth]/options";
 
-const TicketCard = ({ ticket }) => {
+const TicketCard = async ({ ticket }) => {
+  const session = await getServerSession(options);
   const priority = ticket.priority;
   const progress = ticket.progress;
   const status = ticket.status;
@@ -31,7 +34,10 @@ const TicketCard = ({ ticket }) => {
           <DeleteBlock id={ticket._id} />
         </div>
       </div>
-      <Link href={`/TicketPage/${ticket._id}`} style={{ display: "contents" }}>
+      <Link
+        href={session ? `/TicketPage/${ticket._id}` : "/api/auth/signin"}
+        style={{ display: "contents" }}
+      >
         <h4>{ticket.title}</h4>
         <hr className="h-px border-0 bg-page mb-2" />
         <p className="whitespace-pre-wrap">{ticket.description}</p>
