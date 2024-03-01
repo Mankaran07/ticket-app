@@ -19,9 +19,12 @@ const DeleteBlock = ({ id }) => {
       router.refresh();
       return;
     }
-    const res = await fetch(`/api/Tickets/${id}`, {
-      method: "DELETE",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/Tickets/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
     if (res.ok) router.refresh();
     setSnackbarAdded(true);
   };

@@ -19,11 +19,14 @@ const UserForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
-    const res = await fetch(`${process.env.HOST_URL}/api/Users`, {
-      method: "POST",
-      body: JSON.stringify({ formData }),
-      "content-type": "application/json",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/Users`,
+      {
+        method: "POST",
+        body: JSON.stringify({ formData }),
+        "content-type": "application/json",
+      }
+    );
     if (!res.ok) {
       const response = res.json();
       setErrorMessage(response.message);

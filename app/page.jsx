@@ -2,9 +2,12 @@ import TicketCard from "./(components)/TicketCard";
 
 const getTickets = async () => {
   try {
-    const res = await fetch(`${process.env.HOST_URL}/api/Tickets`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/Tickets`,
+      {
+        cache: "no-store",
+      }
+    );
     if (!res.ok) {
       throw new Error("Failed to fetch topics");
     }
@@ -16,7 +19,7 @@ const getTickets = async () => {
 
 const Dashboard = async () => {
   const data = await getTickets();
-  if (data?.tickets.length === 0) {
+  if (data?.tickets.length === 0 || data?.tickets === undefined) {
     return (
       <p className="text-5xl flex justify-center text-red-600">No Tickets</p>
     );

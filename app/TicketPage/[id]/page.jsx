@@ -2,9 +2,12 @@ import TicketForm from "@/app/(components)/TicketForm";
 import React from "react";
 
 const getTicketById = async (id) => {
-  const res = await fetch(`${process.env.HOST_URL}/api/Tickets/${id}`, {
-    cache: "no-store",
-  });
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BASE_API_URL}/api/Tickets/${id}`,
+    {
+      cache: "no-store",
+    }
+  );
   if (!res.ok) {
     throw new Error("Failed to get ticket!");
   }
